@@ -58,7 +58,7 @@ def analyze_video_with_gemini(video_path):
     try:
         print(f"Uploading file to Gemini: {video_path}")
         # Upload using the new SDK
-        video_file = client.files.upload(path=video_path)
+        video_file = client.files.upload(file=video_path)
         
         # Wait for processing
         while video_file.state.name == "PROCESSING":
