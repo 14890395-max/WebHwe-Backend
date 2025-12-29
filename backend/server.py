@@ -145,31 +145,46 @@ def health_check():
 
 @app.route('/api/analyze-video', methods=['POST'])
 def analyze_video():
-    if 'video' not in request.files:
-        return jsonify({'error': 'No video file provided'}), 400
-    
-    video_file = request.files['video']
-    if video_file.filename == '':
-        return jsonify({'error': 'No file selected'}), 400
-    
-    with tempfile.NamedTemporaryFile(suffix='.mp4', delete=False) as temp_video:
-        video_path = temp_video.name
-        video_file.save(video_path)
-    
+    video_path = None
     try:
-        result = analyze_video_with_gemini(video_path)
-        os.unlink(video_path)
+        print("DEBUG: Received analyze-video request.", flush=True)
+        if 'video' not in request.files:
+            print("ERROR: No video file in request.", flush=True)
+            return jsonify({'error': 'No video file provided'}), 400
         
+        video_file = request.files['video']
+        if video_file.filename == '':
+            print("ERROR: Empty filename.", flush=True)
+            return jsonify({'error': 'No file selected'}), 400
+        
+        print(f"DEBUG: Saving temporary file for: {video_file.filename}", flush=True)
+        # Create temp file in current directory to avoid /tmp permission issues
+        with tempfile.NamedTemporaryFile(suffix='.mp4', delete=False, dir=os.getcwd()) as temp_video:
+            video_path = temp_video.name
+            video_file.save(video_path)
+            print(f"DEBUG: File saved to {video_path} (Size: {os.path.getsize(video_path)} bytes)", flush=True)
+        
+        result = analyze_video_with_gemini(video_path)
+        
+        # Cleanup
+        if os.path.exists(video_path): 
+            os.unlink(video_path)
+            print("DEBUG: Local temp file deleted.", flush=True)
+            
         if 'error' in result:
+            print(f"ERROR: Analysis failed: {result['error']}", flush=True)
             status_code = 401 if 'Key' in result['error'] else 500
             return jsonify(result), status_code
+            
+        print("DEBUG: Analysis successful. Returning JSON.", flush=True)
         return jsonify(result)
         
     except Exception as e:
         import traceback
         error_details = traceback.format_exc()
-        print(f"CRITICAL ERROR during analyze-video:\n{error_details}")
-        if os.path.exists(video_path): os.unlink(video_path)
+        print(f"CRITICAL ERROR during analyze-video:\n{error_details}", flush=True)
+        if video_path and os.path.exists(video_path): 
+            os.unlink(video_path)
         return jsonify({'error': str(e), 'details': 'Check Render logs for traceback'}), 500
 
 if __name__ == '__main__':
