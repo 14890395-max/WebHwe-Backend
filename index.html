@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebHwe - Học tiếng Trung qua Video</title>
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBpe0halruGDrjY3OVsAYAPUEoq5AH18yE",
+            authDomain: "hwewebsite.firebaseapp.com",
+            projectId: "hwewebsite",
+            storageBucket: "hwewebsite.firebasestorage.app",
+            messagingSenderId: "937043849076",
+            appId: "1:937043849076:web:9b50b04cbd771cb781c621",
+            measurementId: "G-M09H5V6B6F"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        console.log("Firebase Analytics initialized");
+    </script>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">🐸</div>
+                    <span class="logo-text">Gorodomo</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="dashboard">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">Trang chủ</span>
+                </a>
+                <a href="#" class="nav-item" data-page="videos">
+                    <span class="nav-icon">📹</span>
+                    <span class="nav-text">Danh sách video</span>
+                </a>
+                <a href="#" class="nav-item" data-page="flashcards">
+                    <span class="nav-icon">📚</span>
+                    <span class="nav-text">Từ vựng</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="streak-widget">
+                    <div class="streak-title">Streak</div>
+                    <div class="streak-stars">
+                        <span class="star active" data-day="Th3">⭐</span>
+                        <span class="star active" data-day="Th4">⭐</span>
+                        <span class="star active" data-day="Th5">⭐</span>
+                        <span class="star active" data-day="Th6">⭐</span>
+                        <span class="star" data-day="Th7">⭐</span>
+                        <span class="star" data-day="CN">⭐</span>
+                    </div>
+                    <div class="streak-days">
+                        <span>Th3</span>
+                        <span>Th4</span>
+                        <span>Th5</span>
+                        <span>Th6</span>
+                        <span>Th7</span>
+                        <span>CN</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="main-content" class="main-content">
+            <!-- Dashboard Page -->
+            <div id="page-dashboard" class="page active">
+                <div class="page-header">
+                    <h1>Ôn tập hàng ngày</h1>
+                    <div class="header-stats">
+                        <div class="stat-badge">
+                            <span class="stat-value">4</span>
+                            <span class="stat-label">từ cần ôn tập</span>
+                        </div>
+                        <div class="stat-badge">
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">từ đã thuộc</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary">Bắt đầu ôn tập</button>
+                </div>
+
+                <div class="upload-section">
+                    <h2>Luyện Shadowing để dễ dàng thông qua bất kỳ video nào bạn yêu thích</h2>
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📁</div>
+                        <p class="upload-title">Kéo và thả tại đây hoặc click để chọn file</p>
+                        <p class="upload-subtitle">Hỗ trợ video Youtube hoặc file MP4 từ máy tính của bạn</p>
+                        <input type="file" id="fileInput" accept="video/*" hidden>
+                        <div class="upload-options">
+                            <input type="text" placeholder="Nhập URL Youtube hoặc tìm kiếm" class="url-input">
+                            <button class="btn-upload">Tạo video</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-nav">
+                    <h3>Danh sách Flashcard</h3>
+                    <p class="section-subtitle">Quản lý và ôn tập Flashcard của bạn</p>
+
+                    <div class="flashcard-sets">
+                        <div class="flashcard-set-card" data-video="doraemon">
+                            <div class="set-badges">
+                                <span class="badge badge-learning">1 Thử vựng</span>
+                                <span class="badge badge-mastered">1 chưa thuộc</span>
+                            </div>
+                            <div class="set-info">
+                                <h4>【新版哆啦A梦中文配音：密道原子笔】</h4>
+                                <div class="set-meta">
+                                    <span class="user-info">
+                                        <span class="avatar">N</span>
+                                        Ngụ Ngốc Con Mẹo
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Videos Page -->
+            <div id="page-videos" class="page">
+                <div class="page-header">
+                    <h1>Danh sách Video</h1>
+                </div>
+                <div class="video-grid">
+                    <div class="video-card" data-video-id="doraemon">
+                        <div class="video-thumbnail">
+                            <img src="https://via.placeholder.com/320x180/1a1a2e/16a085?text=Doraemon" alt="Doraemon">
+                            <span class="duration">10:37</span>
+                        </div>
+                        <div class="video-info">
+                            <h3>【新版哆啦A梦中文配音：密道原子笔】</h3>
+                            <p class="video-meta">15 hours ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcards Page -->
+            <div id="page-flashcards" class="page">
+                <div class="page-header">
+                    <h1>Danh sách Flashcard</h1>
+                    <button class="btn-primary" id="btnAddFlashcard">+ Thêm</button>
+                </div>
+
+                <div class="flashcard-list">
+                    <div class="flashcard-set-item" data-set-id="doraemon">
+                        <div class="set-header">
+                            <h3>【新版哆啦A梦中文配音：密道原子笔】</h3>
+                            <button class="btn-review" data-set-id="doraemon">Ôn tập</button>
+                        </div>
+                        <div class="set-stats">
+                            <span class="stat">1 từ đang ôn</span>
+                            <span class="stat">0 từ đã thuộc</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Player Page -->
+            <div id="page-player" class="page">
+                <div class="player-layout">
+                    <div class="player-main">
+                        <div class="video-container">
+                            <video id="videoPlayer">
+                                <source src="" type="video/mp4">
+                            </video>
+
+                            <!-- Custom Video Controls Overlay -->
+                            <div class="custom-video-controls" id="customControls">
+                                <!-- Progress Bar -->
+                                <div class="progress-container" id="progressContainer">
+                                    <div class="progress-bar">
+                                        <div class="progress-filled" id="progressFilled"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Control Buttons Row -->
+                                <div class="controls-row">
+                                    <button class="ctrl-btn ctrl-rewind" id="btnRewind10" title="Tua lại 10 giây">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                            <path
+                                                d="M11.99 5V1l-5 5 5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6h-2c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                                        </svg>
+                                        <span class="btn-num">10</span>
+                                    </button>
+
+                                    <button class="ctrl-btn ctrl-play-pause" id="btnPlayPause" title="Play/Pause">
+                                        <svg class="icon-play" width="28" height="28" viewBox="0 0 24 24"
+                                            fill="currentColor">
+                                            <path d="M8 5v14l11-7z" />
+                                        </svg>
+                                        <svg class="icon-pause hidden" width="28" height="28" viewBox="0 0 24 24"
+                                            fill="currentColor">
+                                            <path d="M6 4h4v16H6zM14 4h4v16h-4z" />
+                                        </svg>
+                                    </button>
+
+                                    <button class="ctrl-btn ctrl-forward" id="btnForward10" title="Tua đi 10 giây">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                            <path
+                                                d="M12 5V1l5 5-5 5V7c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8z" />
+                                        </svg>
+                                        <span class="btn-num">10</span>
+                                    </button>
+
+                                    <div class="volume-control">
+                                        <button class="ctrl-btn" id="btnVolume" title="Âm lượng">
+                                            <svg class="icon-volume-up" width="20" height="20" viewBox="0 0 24 24"
+                                                fill="currentColor">
+                                                <path
+                                                    d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" />
+                                            </svg>
+                                            <svg class="icon-volume-mute hidden" width="20" height="20"
+                                                viewBox="0 0 24 24" fill="currentColor">
+                                                <path
+                                                    d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
+                                            </svg>
+                                        </button>
+                                        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100"
+                                            value="100">
+                                    </div>
+
+                                    <div class="spacer"></div>
+
+                                    <span class="time-display">
+                                        <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+                                    </span>
+
+                                    <button class="ctrl-btn" id="btnFullscreen" title="Toàn màn hình">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                            <path
+                                                d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Subtitle Bar - Below Video -->
+                        <div class="subtitle-bar">
+                            <div class="subtitle-content">
+                                <div class="subtitle-line pinyin" id="subtitlePinyin"></div>
+                                <div class="subtitle-line hanzi" id="subtitleHanzi"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="transcript-sidebar">
+                        <div class="sidebar-header">
+                            <h3>Phụ đề</h3>
+                        </div>
+                        <div class="transcript-list" id="transcriptList">
+                            <!-- Transcript items will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Page -->
+            <div id="page-review" class="page">
+                <div class="review-container">
+                    <div class="review-header">
+                        <h2>Flashcard</h2>
+                        <button class="btn-close" id="btnCloseReview">✕</button>
+                    </div>
+
+                    <div class="flashcard-navigation">
+                        <button class="nav-btn" id="btnPrev">‹</button>
+                        <span class="card-counter" id="cardCounter">1</span>
+                        <button class="nav-btn" id="btnNext">›</button>
+                    </div>
+
+                    <div class="flashcard-wrapper">
+                        <div class="flashcard" id="flashcard">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-mascot">😎</div>
+                                    <div class="card-content">
+                                        <h1 class="card-word" id="cardWord">死者</h1>
+                                    </div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-mascot">🤓</div>
+                                    <div class="card-content">
+                                        <p class="card-meaning" id="cardMeaning">người chết</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vocab-list-sidebar">
+                        <h3>Từ vựng</h3>
+                        <div class="vocab-items" id="vocabList">
+                            <!-- Vocab items will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Dictionary Popup -->
+    <div id="dictionaryPopup" class="dictionary-popup hidden">
+        <div class="popup-backdrop"></div>
+        <div class="popup-content">
+            <div class="popup-header">
+                <button class="btn-close-popup">✕</button>
+            </div>
+            <div class="word-display">
+                <h2 id="popupWord">死者</h2>
+                <span id="popupPinyin">sǐ zhě</span>
+            </div>
+            <div class="word-actions">
+                <button class="btn-icon" id="btnSpeak">🔊</button>
+                <button class="btn-icon" id="btnCopy">📋</button>
+                <button class="btn-icon btn-add" id="btnAddWord">+</button>
+            </div>
+            <div class="word-meaning">
+                <div class="han-viet-box">
+                    <span class="han-viet-label">Hán Việt:</span>
+                    <span id="popupHanViet" class="han-viet-value"></span>
+                </div>
+                <span class="language-tag">Tiếng Việt</span>
+                <p id="popupMeaning">người chết</p>
+            </div>
+            <div class="word-explanation" id="popupExplanation">
+                死者 chỉ những người đã qua đời, những người đã chết.
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/i18n.js"></script>
+    <script src="scripts/data.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/custom-player.js"></script>
+</body>
+
+</html>
