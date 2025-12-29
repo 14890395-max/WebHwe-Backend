@@ -106,7 +106,7 @@ class WebHweApp {
             // nếu chạy trên Cloud (Firebase) thì dùng link Render (bạn sẽ điền sau khi deploy)
             const BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
                 ? 'http://localhost:5000'
-                : 'https://webhwe-backend.onrender.com';
+                : 'https://webhwe-backend.onrender.com'; // Thay bằng link thật của bạn ở đây
 
             // Call backend API
             const response = await fetch(`${BACKEND_URL}/api/analyze-video`, {

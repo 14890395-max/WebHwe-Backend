@@ -16,10 +16,11 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Configure Gemini with the new SDK
 if GEMINI_API_KEY and GEMINI_API_KEY != "your_key_here":
+    print(f"DEBUG: GEMINI_API_KEY found (length: {len(GEMINI_API_KEY)}). Initializing client...")
     client = genai.Client(api_key=GEMINI_API_KEY)
     MODEL_ID = "gemini-1.5-flash"
 else:
-    print("WARNING: GEMINI_API_KEY not set correctly in .env file.")
+    print("CRITICAL: GEMINI_API_KEY NOT SET OR INVALID. Please set it in Render Environment Variables.")
     client = None
 
 app = Flask(__name__)
@@ -51,7 +52,8 @@ def analyze_video_with_gemini(video_path):
     Using the new Google GenAI SDK.
     """
     if not client:
-        return {'error': 'Gemini Client not configured. Please check your API Key.'}
+        print("ERROR: Gemini client is not initialized. Check your API Key.")
+        return {'error': 'Gemini API Key missing on server. Please add it to Render settings.'}
 
     try:
         print(f"Uploading file to Gemini: {video_path}")
@@ -159,7 +161,8 @@ def analyze_video():
         os.unlink(video_path)
         
         if 'error' in result:
-            return jsonify(result), 500
+            status_code = 401 if 'Key' in result['error'] else 500
+            return jsonify(result), status_code
         return jsonify(result)
         
     except Exception as e:
