@@ -18,9 +18,9 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 # Configure Gemini with the new SDK
 if GEMINI_API_KEY and GEMINI_API_KEY != "your_key_here":
     client = genai.Client(api_key=GEMINI_API_KEY)
-    # Using the full model path for maximum compatibility
-    MODEL_ID = "models/gemini-1.5-flash" 
-    print(f"DEBUG: Server Version: 2.1.3 (Stable - Model: {MODEL_ID})")
+    # 1.5-flash has the highest free quota. 
+    MODEL_ID = "gemini-1.5-flash" 
+    print(f"DEBUG: Server Version: 2.1.4 (Stable Quota Fix - Model: {MODEL_ID})")
 else:
     print("CRITICAL: GEMINI_API_KEY NOT SET OR INVALID. Please set it in Render Environment Variables.")
     client = None
