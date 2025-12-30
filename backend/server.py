@@ -18,8 +18,8 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 # Configure Gemini with the new SDK
 if GEMINI_API_KEY and GEMINI_API_KEY != "your_key_here":
     client = genai.Client(api_key=GEMINI_API_KEY)
-    MODEL_ID = "gemini-2.0-flash-lite" # Valid model from user list, lighter than 2.5
-    print("DEBUG: Server Version: 2.1.1 (Lite - Model: gemini-2.0-flash-lite)")
+    MODEL_ID = "gemini-2.0-flash" # High-performance model with decent free-tier limits
+    print(f"DEBUG: Server Version: 2.1.2 (Active Model: {MODEL_ID})")
 else:
     print("CRITICAL: GEMINI_API_KEY NOT SET OR INVALID. Please set it in Render Environment Variables.")
     client = None
@@ -133,8 +133,14 @@ def analyze_video_with_gemini(video_path):
         }
 
     except Exception as e:
-        print(f"Gemini Error: {e}")
-        return {'error': str(e)}
+        error_str = str(e)
+        print(f"Gemini Error: {error_str}")
+        
+        # Friendly message for 429 Quota issues
+        if "429" in error_str or "RESOURCE_EXHAUSTED" in error_str:
+            return {'error': 'Google AI đang quá tải hoặc bạn đã hết hạn mức miễn phí trong hôm nay. Hãy đợi 1-2 phút rồi thử lại với video ngắn hơn nhé!'}
+            
+        return {'error': error_str}
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
