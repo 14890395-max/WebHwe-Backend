@@ -17,11 +17,9 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Configure Gemini with the new SDK
 if GEMINI_API_KEY and GEMINI_API_KEY != "your_key_here":
-    masked_key = f"{GEMINI_API_KEY[:4]}...{GEMINI_API_KEY[-4:]}" if len(GEMINI_API_KEY) > 8 else "***"
-    print(f"DEBUG: GEMINI_API_KEY detected: {masked_key} (length: {len(GEMINI_API_KEY)})")
-    print("DEBUG: Server Version: 2.0.6 (Key Verification Mode)")
     client = genai.Client(api_key=GEMINI_API_KEY)
-    MODEL_ID = "gemini-2.5-flash"
+    MODEL_ID = "gemini-1.5-flash" # Standard stable model with best free tier limits
+    print("DEBUG: Server Version: 2.1.0 (Stable - Model: gemini-1.5-flash)")
 else:
     print("CRITICAL: GEMINI_API_KEY NOT SET OR INVALID. Please set it in Render Environment Variables.")
     client = None
