@@ -64,8 +64,8 @@ def analyze_video_with_gemini(video_path):
         
         # Wait for processing
         while video_file.state.name == "PROCESSING":
-            print(".", end="", flush=True)
-            time.sleep(2)
+            print("Waiting for Gemini to process video...", flush=True)
+            time.sleep(10) # INCREASED SLEEP to avoid RPM quota exhaustion (429)
             video_file = client.files.get(name=video_file.name)
             
         if video_file.state.name == "FAILED":
