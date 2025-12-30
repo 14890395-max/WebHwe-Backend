@@ -10,14 +10,16 @@ from utils.hanviet_utils import translator
 
 # Load environment variables from the same directory as the script
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
-load_dotenv(dotenv_path=dotenv_path, override=True)
+# Only load .env if not already set (environment variables on Render take priority)
+load_dotenv(dotenv_path=dotenv_path, override=False)
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Configure Gemini with the new SDK
 if GEMINI_API_KEY and GEMINI_API_KEY != "your_key_here":
-    print(f"DEBUG: GEMINI_API_KEY found (length: {len(GEMINI_API_KEY)}). Initializing client...")
-    print("DEBUG: Server Version: 2.0.5 (Using gemini-2.5-flash)")
+    masked_key = f"{GEMINI_API_KEY[:4]}...{GEMINI_API_KEY[-4:]}" if len(GEMINI_API_KEY) > 8 else "***"
+    print(f"DEBUG: GEMINI_API_KEY detected: {masked_key} (length: {len(GEMINI_API_KEY)})")
+    print("DEBUG: Server Version: 2.0.6 (Key Verification Mode)")
     client = genai.Client(api_key=GEMINI_API_KEY)
     MODEL_ID = "gemini-2.5-flash"
 else:
