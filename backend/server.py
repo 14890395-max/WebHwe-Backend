@@ -18,7 +18,7 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if GEMINI_API_KEY and GEMINI_API_KEY != "your_key_here":
     print(f"DEBUG: GEMINI_API_KEY found (length: {len(GEMINI_API_KEY)}). Initializing client...")
     client = genai.Client(api_key=GEMINI_API_KEY)
-    MODEL_ID = "gemini-1.5-flash"
+    MODEL_ID = "gemini-1.5-flash-001"
 else:
     print("CRITICAL: GEMINI_API_KEY NOT SET OR INVALID. Please set it in Render Environment Variables.")
     client = None
